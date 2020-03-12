@@ -1,24 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/global.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
 
-function App() {
+// import external components
+import CourseDetail from './components/CourseDetail';
+import Courses from './components/Courses';
+import CreateCourse from './components/CreateCourse';
+import Header from './components/Header';
+import UpdateCourse from './components/UpdateCourse';
+import UserSignIn from './components/UserSignIn';
+import UserSignOut from './components/UserSignOut';
+import UserSignUp from './components/UserSignUp';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="root">
+      <div>
+        <Router>
+          <Header />
+          <Route></Route>
+        </Router>
+      </div>
     </div>
   );
 }
