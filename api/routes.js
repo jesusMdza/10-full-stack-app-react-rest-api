@@ -64,7 +64,7 @@ const authenticateUser = async (req, res, next) => {
   }
 }
 
-// GET authenticated user(s)
+// GET authenticated user
 router.get('/users', authenticateUser, asyncHandler(async (req, res, next) => {
   try {
     console.log(req.currentUser);
