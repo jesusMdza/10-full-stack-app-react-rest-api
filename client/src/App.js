@@ -16,6 +16,12 @@ import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
 import UserSignUp from './components/UserSignUp';
 
+// import higher order function
+import withContext from './Context';
+
+// components wrapped around imported higher order function
+const CoursesWithContext = withContext(Courses);
+
 const App = () => {
   return (
     <div className="root">
@@ -24,7 +30,7 @@ const App = () => {
           <Header />
 
           <Switch>
-            <Route path="/" component={Courses} />
+            <Route path="/" component={CoursesWithContext} />
             <Route path="/courses/create" component={CreateCourse} />
             <Route path="/courses/:id/update" component={UpdateCourse} />
             <Route path="courses/:id" component={CourseDetail} />
