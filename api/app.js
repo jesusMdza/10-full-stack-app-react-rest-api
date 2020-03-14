@@ -41,10 +41,10 @@ app.use(morgan('dev'));
 // a built-in middleware function in Express that parses incoming requests with JSON payloads
 app.use(express.json());
 
+app.use(cors());
+
 // TODO setup your api routes here
 app.use('/api', routes);
-
-app.use(cors());
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
