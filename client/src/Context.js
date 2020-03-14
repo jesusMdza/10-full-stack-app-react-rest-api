@@ -22,7 +22,7 @@ export class Provider extends Component {
 
   getUser = async () => {
     await this.api("http://localhost:5000/api/users", 'GET', null)
-      .then(data => {return data.json()})
+      .then(data => {return data})
       .catch(err => {return err});
   } 
 
@@ -31,9 +31,10 @@ export class Provider extends Component {
   } 
 
   getCourses = async () => {
-    await this.api("http://localhost:5000/api/courses", 'GET', null)
-      .then(data => {console.log(data.json())})
-      .catch(err => {return err});
+    const response = await this.api("http://localhost:5000/api/courses", 'GET', null);
+    if (response.status === 200) {
+      return response.json();
+    }
   }
 
   postCourse = async () => {
