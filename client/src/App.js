@@ -15,12 +15,15 @@ import UpdateCourse from './components/UpdateCourse';
 import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
 import UserSignUp from './components/UserSignUp';
+import NotFound from './components/NotFound';
 
 // import higher order function
 import withContext from './Context';
 
 // components wrapped around imported higher order function
 const CoursesWithContext = withContext(Courses);
+const CourseDetailWithContext = withContext(CourseDetail);
+const UpdateCourseWithContext = withContext(UpdateCourse);
 
 const App = () => {
   return (
@@ -30,13 +33,14 @@ const App = () => {
           <Header />
 
           <Switch>
-            <Route path="/" component={CoursesWithContext} />
-            <Route path="/courses/create" component={CreateCourse} />
-            <Route path="/courses/:id/update" component={UpdateCourse} />
-            <Route path="courses/:id" component={CourseDetail} />
-            <Route path="/signin" component={UserSignIn} />
-            <Route path="/signup" component={UserSignUp} />
-            <Route path="/signout" component={UserSignOut} />
+            <Route exact path="/" component={CoursesWithContext} />
+            <Route exact path="/courses/create" component={CreateCourse} />
+            <Route exact path="/courses/:id/update" component={UpdateCourseWithContext} />
+            <Route exact path="/courses/:id" component={CourseDetailWithContext} />
+            <Route exact path="/signin" component={UserSignIn} />
+            <Route exact path="/signup" component={UserSignUp} />
+            <Route exact path="/signout" component={UserSignOut} />
+            <Route component={NotFound} />
           </Switch>
         </Router>
       </div>
