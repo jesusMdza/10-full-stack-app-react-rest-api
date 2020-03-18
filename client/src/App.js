@@ -22,6 +22,7 @@ import withContext from './Context';
 
 // components wrapped around imported higher order function
 const CoursesWithContext = withContext(Courses);
+const CreateCourseWithContext = withContext(CreateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 
@@ -34,7 +35,7 @@ const App = () => {
 
           <Switch>
             <Route exact path="/" component={CoursesWithContext} />
-            <Route exact path="/courses/create" component={CreateCourse} />
+            <Route exact path="/courses/create" component={CreateCourseWithContext} />
             <Route exact path="/courses/:id/update" component={UpdateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetailWithContext} />
             <Route exact path="/signin" component={UserSignIn} />
