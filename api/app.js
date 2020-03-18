@@ -14,6 +14,8 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 
 const app = express();
 
+app.use(cors());
+
 // set our port
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
@@ -40,8 +42,6 @@ app.use(morgan('dev'));
 
 // a built-in middleware function in Express that parses incoming requests with JSON payloads
 app.use(express.json());
-
-app.use(cors());
 
 // TODO setup your api routes here
 app.use('/api', routes);
