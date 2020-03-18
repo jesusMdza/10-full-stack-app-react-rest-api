@@ -9,15 +9,21 @@ export class Provider extends Component {
   }
 
   // access api and handles all calls
-  api = async (url, method, body) => {
-    return fetch(url, {
+  api = async (url, method, body = null) => {
+    const options = {
       method: method, 
       mode: 'cors', 
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
-      body: body 
-    });
+      }
+    }
+
+    if (body !== null) {
+      options.body = JSON.stringify(body);
+    } 
+
+    return fetch(url, options);
   }
 
   getUser = async () => {
@@ -25,7 +31,7 @@ export class Provider extends Component {
     if (response.status === 200) {
       return response.json();
     } else {
-
+      return response.status === 404;
     }
   } 
 
@@ -52,10 +58,15 @@ export class Provider extends Component {
     }
   }
 
-  postCourse = async () => {
-    const response = await this.api("http://localhost:5000/api/courses", 'POST', null);
+  postCourse = async (body) => {
+    const response = await this.api("http://localhost:5000/api/courses", 'POST', body);
+    console.log(response);
     if (response.status === 201) {
+      console.log('created');
       return null;
+    } else {
+      console.log('something went wrong');
+      return response.status;
     }
   }
 
@@ -63,8 +74,10 @@ export class Provider extends Component {
     const response = await this.api("http://localhost:5000/api/courses", 'PUT', null);
     if (response.status === 204) {
       return null;
+    } else {
+      return response.status === 400;
     }
-  } 
+  }
 
   deleteCourse = async () => {
     const response = await this.api("http://localhost:5000/api/courses", 'DELETE', null);
