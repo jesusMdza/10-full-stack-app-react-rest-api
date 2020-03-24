@@ -15,6 +15,8 @@ export default class CourseDetail extends React.Component {
   }
 
   render(){
+    const { context, match } = this.props;
+    const { id } = match.params;
     const { course } = this.state;
     const { title, description, estimatedTime, materialsNeeded } = course;
 
@@ -23,8 +25,8 @@ export default class CourseDetail extends React.Component {
         <div className="bounds">
           <div className="grid-100">
             <span>
-              <a className="button" href="/">Update Course</a>
-              <a className="button" href="/">Delete Course</a>
+              <a className="button" href={`/courses/${ id }/update`}>Update Course</a>
+              <a className="button" onClick={ () => context.actions.deleteCourse( id ) } href={`/courses/${ id }/delete`}>Delete Course</a>
             </span>
             <a className="button button-secondary" href="/">Return to List</a>
           </div>
