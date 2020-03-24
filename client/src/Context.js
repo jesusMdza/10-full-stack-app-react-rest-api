@@ -62,7 +62,6 @@ export class Provider extends Component {
     const response = await this.api("http://localhost:5000/api/courses", 'POST', body);
     console.log(response);
     if (response.status === 201) {
-      console.log('created');
       return null;
     } else {
       console.log('something went wrong');
@@ -79,10 +78,13 @@ export class Provider extends Component {
     }
   }
 
-  deleteCourse = async () => {
-    const response = await this.api("http://localhost:5000/api/courses", 'DELETE', null);
+  deleteCourse = async (id) => {
+    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null);
     if (response.status === 204) {
-      return null;
+      return response.status;
+    } else {
+      console.log(response.status);
+      return response.status === 400;
     }
   } 
 
