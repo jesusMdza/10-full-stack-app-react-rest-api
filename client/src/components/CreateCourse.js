@@ -9,20 +9,13 @@ class CreateCourse extends React.Component {
     materialsNeeded: ""
   }
 
-  handleTitleValueChange = (e) => {
-    this.setState({ title: e.target.value });
-  }
+  change = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
 
-  handleDescriptionValueChange = (e) => {
-    this.setState({ description: e.target.value });
-  }
-
-  handleEstimatedTimeValueChange = (e) => {
-    this.setState({ estimatedTime: e.target.value });
-  }
-
-  handleMaterialsNeededValueChange = (e) => {
-    this.setState({ materialsNeeded: e.target.value });
+    this.setState({
+      [name]: value
+    });
   }
 
   handleSubmit = (e) => {
@@ -65,14 +58,14 @@ class CreateCourse extends React.Component {
                 <h4 className="course--label">Course</h4>
                 <div>
                   <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
-                    onChange={(e) => this.handleTitleValueChange(e)} value={ title } />
+                    onChange={(e) => this.change(e)} value={ title } />
                 </div>
                 <p>By Joe Smith</p>
               </div>
               <div className="course--description">
                 <div>
                   <textarea id="description" name="description" className="" placeholder="Course description..."
-                    onChange={(e) => this.handleDescriptionValueChange(e)} value={ description } />
+                    onChange={(e) => this.change(e)} value={ description } />
                 </div>
               </div>
             </div>
@@ -83,14 +76,14 @@ class CreateCourse extends React.Component {
                     <h4>Estimated Time</h4>
                     <div>
                       <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input"
-                        onChange={(e) => this.handleEstimatedTimeValueChange(e)} placeholder="Hours" value={ estimatedTime } />
+                        onChange={(e) => this.change(e)} placeholder="Hours" value={ estimatedTime } />
                     </div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
                       <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..."
-                        onChange={(e) => this.handleMaterialsNeededValueChange(e)} value={ materialsNeeded } />
+                        onChange={(e) => this.change(e)} value={ materialsNeeded } />
                     </div>
                   </li>
                 </ul>
