@@ -9,7 +9,7 @@ export class Provider extends Component {
   }
 
   // access api and handles all calls
-  api = async (url, method, body = null) => {
+  api = async (url, method, body = null, requiresAuth = false, credentials = null) => {
     const options = {
       method: method, 
       mode: 'cors', 
@@ -21,13 +21,26 @@ export class Provider extends Component {
 
     if (body !== null) {
       options.body = JSON.stringify(body);
-    } 
+    }
+
+    if (requiresAuth === true) {
+      const encryptedCredentials = btoa(`${credentials.name}:${credentials.password}`);
+      options.headers.authorization = `Basic ${encryptedCredentials}`
+    }
 
     return fetch(url, options);
   }
 
-  getUser = async () => {
-    const response = await this.api("http://localhost:5000/api/users", 'GET', null);
+  signIn = (username, password) => {
+    
+  }
+
+  signOut = () => {
+    this.setState({authenticatedUser: null});
+  }
+
+  getUser = async (username, password) => {
+    const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, {username, password});
     if (response.status === 200) {
       return response.json();
     } else {
@@ -35,10 +48,12 @@ export class Provider extends Component {
     }
   } 
 
-  postUser = async () => {
-    const response = await this.api("http://localhost:5000/api/users", 'POST', null);
+  postUser = async (body) => {
+    const response = await this.api("http://localhost:5000/api/users", 'POST', body);
     if (response.status === 201) {
       return null;
+    } else if (response.status === 400) {
+      return response.json();
     }
   }
 
@@ -58,19 +73,19 @@ export class Provider extends Component {
     }
   }
 
-  postCourse = async (body) => {
-    const response = await this.api("http://localhost:5000/api/courses", 'POST', body);
+  postCourse = async (body, username, password) => {
+    const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, {username, password});
     console.log(response);
     if (response.status === 201) {
-      return null;
+      return [];
     } else {
       console.log('something went wrong');
       return response.status;
     }
   }
 
-  putCourse = async () => {
-    const response = await this.api("http://localhost:5000/api/courses", 'PUT', null);
+  putCourse = async (username, password) => {
+    const response = await this.api("http://localhost:5000/api/courses", 'PUT', null, true, {username, password});
     if (response.status === 204) {
       return null;
     } else {
@@ -78,8 +93,8 @@ export class Provider extends Component {
     }
   }
 
-  deleteCourse = async (id) => {
-    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null);
+  deleteCourse = async (id, username, password) => {
+    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null, true, {username, password});
     if (response.status === 204) {
       return response.status;
     } else {
@@ -98,7 +113,9 @@ export class Provider extends Component {
         getCourses: this.getCourses,
         postCourse: this.postCourse,
         putCourse: this.putCourse,
-        deleteCourse: this.deleteCourse
+        deleteCourse: this.deleteCourse,
+        signIn: this.signIn,
+        signOut: this.signOut
       }
     }
 
