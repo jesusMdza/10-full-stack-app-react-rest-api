@@ -1,13 +1,26 @@
 import React from 'react';
 
-const Header = () => {
+const Header = (props) => {
+
+  const { authenticatedUser } = props;
+
   return (
     <div className="header">
       <div className="bounds">
         <h1 className="header--logo">Courses</h1>
         <nav>
-          <span>Welcome Joe Smith!</span>
-          <a className="signout" href="index.html">Sign Out</a>
+          {
+            authenticatedUser !== undefined ?
+            <>
+              <span>Welcome { authenticatedUser }!</span>
+              <a className="signout" href="/signout">Sign Out</a>
+            </>
+            :
+            <>
+              <a className="signin" href="/signin">Sign In</a>
+              <a className="signup" href="/signup">Sign Up</a>
+            </>
+          }
         </nav>
       </div>
     </div>
