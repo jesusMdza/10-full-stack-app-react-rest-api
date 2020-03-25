@@ -22,17 +22,20 @@ import NotFound from './components/NotFound';
 import withContext from './Context';
 
 // components wrapped around imported higher order function
+const HeaderWithContext = withContext(Header);
 const CoursesWithContext = withContext(Courses);
 const CreateCourseWithContext = withContext(CreateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
 const UpdateCourseWithContext = withContext(UpdateCourse);
+const UserSignInWithContext = withContext(UserSignIn);
+const UserSignUpWithContext = withContext(UserSignUp);
 
 const App = () => {
   return (
     <div className="root">
       <div>
         <Router>
-          <Header />
+          <HeaderWithContext />
 
           <Switch>
             <Route exact path="/" component={CoursesWithContext} />
@@ -40,8 +43,8 @@ const App = () => {
             <Route exact path="/courses/:id" component={CourseDetailWithContext} />
             <Route exact path="/courses/:id/update" component={UpdateCourseWithContext} />
             <Route exact path="/courses/:id/delete" component={() => <Redirect to="/" />} />
-            <Route exact path="/signin" component={UserSignIn} />
-            <Route exact path="/signup" component={UserSignUp} />
+            <Route exact path="/signin" component={UserSignInWithContext} />
+            <Route exact path="/signup" component={UserSignUpWithContext} />
             <Route exact path="/signout" component={UserSignOut} />
             <Route component={NotFound} />
           </Switch>
