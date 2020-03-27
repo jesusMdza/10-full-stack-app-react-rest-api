@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import Cookies from 'js-cookie';
 
 export const Context = React.createContext(); 
 
 export class Provider extends Component {
 
   state = {
-    authenticatedUser: null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
   }
 
   // access api and handles all calls
@@ -24,27 +25,36 @@ export class Provider extends Component {
     }
 
     if (requiresAuth === true) {
-      const encryptedCredentials = btoa(`${credentials.name}:${credentials.password}`);
-      options.headers.authorization = `Basic ${encryptedCredentials}`
+      const encryptedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      options.headers["Authorization"] = `Basic ${encryptedCredentials}`;
     }
 
     return fetch(url, options);
   }
 
-  signIn = (username, password) => {
-    
+  signIn = async (username, password) => {
+    const user = await this.getUser(username, password);
+    if (user !== undefined) {
+      this.setState({ authenticatedUser: user });
+
+      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+    }
+    return user;
   }
 
   signOut = () => {
     this.setState({authenticatedUser: null});
+    Cookies.remove('authenticatedUser');
   }
 
   getUser = async (username, password) => {
     const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, {username, password});
     if (response.status === 200) {
       return response.json();
+    } else if (response.status === 401) {
+      return null;
     } else {
-      return response.status === 404;
+      throw new Error();
     }
   } 
 
