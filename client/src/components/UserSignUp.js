@@ -21,19 +21,30 @@ class UserSignUp extends React.Component {
     });
   }
 
-
   submit = async (e, body, confirmPassword) => {
     const { context } = this.props;
-    const { password } = body;
+    const { emailAddress, password, errors } = this.state;
 
     if (password !== confirmPassword) {
       e.preventDefault();
+      if (!errors.includes("Passwords do not match.")) {
+        if (errors.length > 0) {
+          this.setState({ errors: [...errors, "Passwords do not match."] });
+        } else {
+          this.setState({ errors: ["Passwords do not match."] });
+        }
+      } else {
+        return null;
+      }
     } else {
       e.preventDefault();
       context.actions.postUser(body)
-        .then(data => {
-          if (data.error) {
-            this.setState({ errors: data.error });
+        .then(errors => {
+          if (errors) {
+            this.setState({ errors: errors.error });
+          } else {
+            context.actions.signIn(emailAddress, password);
+            this.props.history.push("/");
           }
         });
     }
