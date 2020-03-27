@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = (props) => {
 
-  const { authenticatedUser } = props;
+  const { context } = props;
 
   return (
     <div className="header">
@@ -10,9 +10,9 @@ const Header = (props) => {
         <h1 className="header--logo">Courses</h1>
         <nav>
           {
-            authenticatedUser !== undefined ?
+            context.authenticatedUser !== null ?
             <>
-              <span>Welcome { authenticatedUser }!</span>
+              <span>Welcome { context.authenticatedUser.firstName }!</span>
               <a className="signout" href="/signout">Sign Out</a>
             </>
             :
