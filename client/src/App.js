@@ -29,6 +29,7 @@ const CourseDetailWithContext = withContext(CourseDetail);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignOutWithContext = withContext(UserSignOut);
 
 const App = () => {
   return (
@@ -45,7 +46,7 @@ const App = () => {
             <Route exact path="/courses/:id/delete" component={() => <Redirect to="/" />} />
             <Route exact path="/signin" component={UserSignInWithContext} />
             <Route exact path="/signup" component={UserSignUpWithContext} />
-            <Route exact path="/signout" component={UserSignOut} />
+            <Route exact path="/signout" component={UserSignOutWithContext} />
             <Route component={NotFound} />
           </Switch>
         </Router>
