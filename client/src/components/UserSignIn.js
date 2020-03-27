@@ -1,18 +1,15 @@
 import React from 'react';
+import {
+  Redirect
+} from 'react-router-dom';
+import FormErrors from './FormErrors';
 
 class UserSignIn extends React.Component {
 
   state = {
     emailAddress: "",
-    password: ""
-  }
-
-  handleUsernameValueChange = (e) => {
-    this.setState({username: e.target.value});
-  }
-
-  handlePasswordValueChange = (e) => {
-    this.setState({password: e.target.value});
+    password: "",
+    errors: []
   }
 
   change = (e) => {
@@ -24,16 +21,36 @@ class UserSignIn extends React.Component {
     });
   }
 
-  render(){
+  submit = (e, username, password) => {
+    e.preventDefault();
     const { context } = this.props;
-    const { emailAddress, password } = this.state;
+    const { from } = this.props.location.state || { from: "/" };
+
+    context.actions.signIn(username, password)
+      .then(user => {
+        if (user === null) {
+          e.persist(); // Keeps reference of synthetic event within an async callback
+          this.setState({ errors: ["Sign-in unsuccessful."]});
+        } else {
+          this.setState({ errors: [] });
+          this.props.history.push(from);
+        }
+      })
+      .catch(err => {
+        this.props.history.push("/error");
+      });
+  }
+
+  render(){
+    const { emailAddress, password, errors } = this.state;
 
     return(
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign In</h1>
           <div>
-            <form onSubmit={ () => context.actions.signIn(emailAddress, password) }>
+            <FormErrors errors={ errors } />
+            <form onSubmit={ (e) => this.submit(e, emailAddress, password) }>
               <div>
                 <input 
                   id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" value={ emailAddress }
