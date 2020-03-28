@@ -17,6 +17,9 @@ import UserSignIn from './components/UserSignIn';
 import UserSignOut from './components/UserSignOut';
 import UserSignUp from './components/UserSignUp';
 import NotFound from './components/NotFound';
+import PrivateRoute from './components/PrivateRoute';
+import UnhandledError from './components/UnhandledError';
+import Forbidden from './components/Forbidden';
 
 // import higher order function
 import withContext from './Context';
@@ -40,13 +43,16 @@ const App = () => {
 
           <Switch>
             <Route exact path="/" component={CoursesWithContext} />
-            <Route exact path="/courses/create" component={CreateCourseWithContext} />
+            <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetailWithContext} />
-            <Route exact path="/courses/:id/update" component={UpdateCourseWithContext} />
-            <Route exact path="/courses/:id/delete" component={() => <Redirect to="/" />} />
+            <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
+            <PrivateRoute exact path="/courses/:id/delete" component={() => <Redirect to="/" />} />
             <Route exact path="/signin" component={UserSignInWithContext} />
             <Route exact path="/signup" component={UserSignUpWithContext} />
             <Route exact path="/signout" component={UserSignOutWithContext} />
+            <Route exact path="/error" component={UnhandledError} />
+            <Route exact path="/forbidden" component={Forbidden} />
+            <Route exact path="/notfound" component={NotFound} />
             <Route component={NotFound} />
           </Switch>
         </Router>
