@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  Redirect
-} from 'react-router-dom';
 import FormErrors from './FormErrors';
 
 class UserSignIn extends React.Component {
@@ -65,7 +62,7 @@ class UserSignIn extends React.Component {
               </div>
               <div className="grid-100 pad-bottom">
                 <button className="button" type="submit">Sign In</button>
-                <button className="button button-secondary" onClick={(e) => {e.preventDefault(); this.props.history.push('/')}}>Cancel</button>
+                <button className="button button-secondary" onClick={(e) => {this.props.history.push("/")}}>Cancel</button>
               </div>
             </form>
           </div>
