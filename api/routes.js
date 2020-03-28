@@ -34,7 +34,7 @@ const authenticateUser = async (req, res, next) => {
   if (credentials) {
     const users = await User.findAll();
     const user = users.find(u => u.emailAddress === credentials.name);
-    console.log(user);
+    console.log(credentials);
     
     // if user exists in db, compare passwords from db and credentials
     if (user) {
@@ -73,7 +73,6 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res, next) => {
         id: req.currentUser.id
       }
     });
-    console.log(user);
     res.status(200).json(user);
   } catch (error) {
     throw error
