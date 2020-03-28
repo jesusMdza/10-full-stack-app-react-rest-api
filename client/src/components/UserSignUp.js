@@ -24,6 +24,7 @@ class UserSignUp extends React.Component {
   submit = async (e, body, confirmPassword) => {
     const { context } = this.props;
     const { emailAddress, password, errors } = this.state;
+    const { from } = this.props.location.state || { from: "/" };
 
     if (password !== confirmPassword) {
       e.preventDefault();
@@ -41,10 +42,11 @@ class UserSignUp extends React.Component {
       context.actions.postUser(body)
         .then(errors => {
           if (errors) {
+            e.persist();
             this.setState({ errors: errors.error });
           } else {
             context.actions.signIn(emailAddress, password);
-            this.props.history.push("/");
+            this.props.history.push(from);
           }
         });
     }
