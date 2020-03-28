@@ -2,8 +2,10 @@ import React from 'react';
 
 const FormErrors = ({ errors }) => {
 
-  if (errors.length > 0) {
-    return(
+  if (errors === undefined || errors.length === 0) {
+    return null;
+  } else {
+    return (
       <div>
         <h2 className="validation--errors--label">Validation errors</h2>
         <div className="validation-errors">
@@ -13,8 +15,6 @@ const FormErrors = ({ errors }) => {
         </div>
       </div>
     );
-  } else {
-    return null;
   }
 }
 
