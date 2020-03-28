@@ -6,7 +6,8 @@ export const Context = React.createContext();
 export class Provider extends Component {
 
   state = {
-    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
+    password: Cookies.getJSON('password') || null
   }
 
   // access api and handles all calls
@@ -25,7 +26,7 @@ export class Provider extends Component {
     }
 
     if (requiresAuth === true) {
-      const encryptedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      const encryptedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
       options.headers["Authorization"] = `Basic ${encryptedCredentials}`;
     }
 
@@ -35,9 +36,18 @@ export class Provider extends Component {
   signIn = async (username, password) => {
     const user = await this.getUser(username, password);
     if (user !== undefined) {
-      this.setState({ authenticatedUser: user });
-
-      Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+      this.setState({ 
+      authenticatedUser: {
+        id: user.id,
+        firstName: user.firstName,
+        emailAddress: user.emailAddress,
+        password: password
+      },
+      password: password
+      }, () => {
+        Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
+        Cookies.set('password', JSON.stringify(password), { expires: 1 });
+      });
     }
     return user;
   }
@@ -47,8 +57,8 @@ export class Provider extends Component {
     Cookies.remove('authenticatedUser');
   }
 
-  getUser = async (username, password) => {
-    const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, {username, password});
+  getUser = async (emailAddress, password) => {
+    const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
       return response.json();
     } else if (response.status === 401) {
@@ -63,7 +73,7 @@ export class Provider extends Component {
     if (response.status === 201) {
       return null;
     } else if (response.status === 400) {
-      return response.json();
+      return response.status;
     }
   }
 
@@ -71,52 +81,65 @@ export class Provider extends Component {
     let response;
 
     if (id) {
-      response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'GET', null);
+      response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'GET');
     } else {
-      response = await this.api("http://localhost:5000/api/courses", 'GET', null);
+      response = await this.api("http://localhost:5000/api/courses", 'GET');
     }
 
     if (response.status === 200) {
       return response.json();
     } else {
-      return response.status === 404;
-    }
-  }
-
-  postCourse = async (body, username, password) => {
-    const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, {username, password});
-    console.log(response);
-    if (response.status === 201) {
-      return [];
-    } else {
-      console.log('something went wrong');
-      return response.status;
-    }
-  }
-
-  putCourse = async (username, password) => {
-    const response = await this.api("http://localhost:5000/api/courses", 'PUT', null, true, {username, password});
-    if (response.status === 204) {
       return null;
-    } else {
-      return response.status === 400;
     }
   }
 
-  deleteCourse = async (id, username, password) => {
-    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null, true, {username, password});
+  postCourse = async (body) => {
+    const { authenticatedUser } = this.state;
+    const { password } = this.state;
+    const { emailAddress } = authenticatedUser;
+    console.log(emailAddress, password);
+
+    const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, { emailAddress, password });
+    if (response.status === 201) {
+      return null;
+    } else if (response.status === 400) {
+      return response.status;
+    } else if (response.status === 401) {
+      return response.status;
+    }
+  }
+
+  putCourse = async (body) => {
+    const { authenticatedUser } = this.state;
+    const { password } = this.state;
+    const { emailAddress } = authenticatedUser;
+
+    const response = await this.api("http://localhost:5000/api/courses", 'PUT', body, true, { emailAddress, password });
+    if (response.status === 204) {
+      return response.json();
+    } else {
+      return response.status;
+    }
+  }
+
+  deleteCourse = async (id) => {
+    const { authenticatedUser } = this.state;
+    const { password } = this.state;
+    const { emailAddress } = authenticatedUser;
+
+    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null, true, { emailAddress, password });
     if (response.status === 204) {
       return response.status;
     } else {
-      console.log(response.status);
-      return response.status === 400;
+      return response.status;
     }
   } 
 
   render() {
-    const { authenticatedUser } = this.state;
+    const { authenticatedUser, password } = this.state;
     const value = {
       authenticatedUser,
+      password,
       actions: {
         getUser: this.getUser,
         postUser: this.postUser,
