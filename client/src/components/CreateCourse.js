@@ -1,4 +1,5 @@
 import React from 'react';
+import FormErrors from './FormErrors';
 
 class CreateCourse extends React.Component {
 
@@ -6,7 +7,9 @@ class CreateCourse extends React.Component {
     title: "",
     description: "",
     estimatedTime: "",
-    materialsNeeded: ""
+    materialsNeeded: "",
+    userId: "",
+    errors: []
   }
 
   change = (e) => {
@@ -18,7 +21,7 @@ class CreateCourse extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
+  submit = (e) => {
     e.preventDefault();
     const { title, description, estimatedTime, materialsNeeded } = this.state;
     const { context } = this.props;
@@ -28,31 +31,31 @@ class CreateCourse extends React.Component {
       description,
       estimatedTime,
       materialsNeeded,
-      userId: 4
+      userId: context.authenticatedUser.id
     };
 
     context.actions.postCourse(body)
-      .then(data => data)
-      .catch(err => console.log(err));
-  } 
+    .then(errors => {
+      console.log(errors);
+      if (errors) {
+        e.persist();
+        this.setState({ errors: errors.error });
+      } else {
+        return null;
+      }
+    })
+    .catch(err => console.log(err));
+  }
 
   render(){
-    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
 
     return(
       <div className="bounds course--detail">
         <h1>Create Course</h1>
         <div>
-          <div>
-            <h2 className="validation--errors--label">Validation errors</h2>
-            <div className="validation-errors">
-              <ul>
-                <li>Please provide a value for "Title"</li>
-                <li>Please provide a value for "Description"</li>
-              </ul>
-            </div>
-          </div>
-          <form onSubmit={(e) => this.handleSubmit(e)}>
+          <FormErrors errors={ errors } />
+          <form onSubmit={(e) => this.submit(e)}>
             <div className="grid-66">
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
