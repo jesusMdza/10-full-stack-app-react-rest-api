@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class CourseDetail extends React.Component {
 
@@ -10,7 +11,14 @@ export default class CourseDetail extends React.Component {
     const { context, match } = this.props;
     context.actions.getCourses(match.params.id)
     .then(data => {
-      this.setState({course: data});
+      if (data === null) {
+        this.props.history.push("/notfound");
+      } else {
+        this.setState({course: data});
+      }
+    })
+    .catch(err => {
+      this.props.history.push("/error");
     });
   }
 
