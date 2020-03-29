@@ -35,7 +35,7 @@ export class Provider extends Component {
 
   signIn = async (username, password) => {
     const user = await this.getUser(username, password);
-    if (user !== undefined) {
+    if (user) {
       this.setState({ 
       authenticatedUser: {
         id: user.id,
@@ -48,8 +48,9 @@ export class Provider extends Component {
         Cookies.set('authenticatedUser', JSON.stringify(user), { expires: 1 });
         Cookies.set('password', JSON.stringify(password), { expires: 1 });
       });
+    } else {
+      return user;
     }
-    return user;
   }
 
   signOut = () => {
@@ -73,7 +74,7 @@ export class Provider extends Component {
     if (response.status === 201) {
       return null;
     } else if (response.status === 400) {
-      return response.status;
+      return response.json();
     }
   }
 
@@ -103,9 +104,9 @@ export class Provider extends Component {
     if (response.status === 201) {
       return null;
     } else if (response.status === 400) {
-      return response.status;
-    } else if (response.status === 401) {
-      return response.status;
+      return response.json();
+    } else {
+      throw new Error();
     }
   }
 
