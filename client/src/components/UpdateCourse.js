@@ -56,9 +56,9 @@ class UpdateCourse extends React.Component {
 
     if (context.authenticatedUser.id === userId) {
       context.actions.postCourse(body)
-      .then(errors => {
-        if (errors) {
-          this.setState({ errors: errors.error });
+      .then(error => {
+        if (error) {
+          this.setState({ errors: error });
         } else {
           context.actions.putCourse(body);
         }
