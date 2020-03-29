@@ -35,11 +35,11 @@ class CreateCourse extends React.Component {
     };
 
     context.actions.postCourse(body)
-    .then(errors => {
-      console.log(errors);
-      if (errors) {
+    .then(error => {
+      console.log(error);
+      if (error) {
         e.persist();
-        this.setState({ errors: errors.error });
+        this.setState({ errors: error });
       } else {
         return null;
       }
