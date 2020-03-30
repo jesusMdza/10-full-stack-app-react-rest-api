@@ -25,10 +25,12 @@ class UserSignIn extends React.Component {
 
     context.actions.signIn(username, password)
       .then(user => {
+        console.log(user);
         if (user === null) {
           e.persist(); // Keeps reference of synthetic event within an async callback
-          this.setState({ errors: ["Sign-in unsuccessful."]});
+          this.setState({ errors: {error: ["Sign-in unsuccessful."]} });
         } else {
+          e.persist();
           this.setState({ errors: [] });
           this.props.history.push(from);
         }
