@@ -4,7 +4,7 @@ const Forbidden = () => {
   return(
     <div className="bounds">
       <h1>Forbidden</h1>
-      <p>You are not authorized to update this course.</p>
+      <p>You are not authorized to modify this course.</p>
     </div>
   );
 }
