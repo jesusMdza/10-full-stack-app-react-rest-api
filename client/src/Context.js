@@ -98,7 +98,6 @@ export class Provider extends Component {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
     const { emailAddress } = authenticatedUser;
-    console.log(emailAddress, password);
 
     const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, { emailAddress, password });
     if (response.status === 201) {
@@ -110,19 +109,21 @@ export class Provider extends Component {
     }
   }
 
-  putCourse = async (body) => {
+  putCourse = async (id, body) => {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
     const { emailAddress } = authenticatedUser;
 
-    const response = await this.api("http://localhost:5000/api/courses", 'PUT', body, true, { emailAddress, password });
+    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'PUT', body, true, { emailAddress, password });
     if (response.status === 204) {
+      return null;
+    } else if (response.status === 400) {
       return response.json();
     } else {
-      return response.status;
+      return new Error();
     }
   }
-
+          
   deleteCourse = async (id) => {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
