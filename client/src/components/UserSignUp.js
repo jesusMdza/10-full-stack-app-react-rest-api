@@ -43,7 +43,7 @@ class UserSignUp extends React.Component {
         .then(errors => {
           if (errors) {
             e.persist();
-            this.setState({ errors: errors.error });
+            this.setState({ errors: errors });
           } else {
             context.actions.signIn(emailAddress, password);
             this.props.history.push(from);
