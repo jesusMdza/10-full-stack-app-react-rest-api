@@ -1,10 +1,9 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 
 export default class CourseDetail extends React.Component {
 
   state = {
-    course: {}
+    course: {},
   }
 
   componentDidMount() {
@@ -14,27 +13,47 @@ export default class CourseDetail extends React.Component {
       if (data === null) {
         this.props.history.push("/notfound");
       } else {
-        this.setState({course: data});
+        this.setState({
+          course: data
+        });
       }
     })
     .catch(err => {
       this.props.history.push("/error");
     });
   }
+  
+  isOwner = (path) => {
+    const { context } = this.props;
+    const { course } = this.state;
+    const { owner } = course;
+
+    if (owner.id === context.authenticatedUser.id) {
+      this.props.history.push( path );
+    } else {
+      this.props.history.push( "/forbidden" );
+    }
+  }
 
   render(){
-    const { context, match } = this.props;
-    const { id } = match.params;
     const { course } = this.state;
-    const { title, description, estimatedTime, materialsNeeded } = course;
+    const { id, title, description, estimatedTime, materialsNeeded, owner } = course;
+
+    let capitalizedFirstName;
+    let capitalizedLastName;
+    
+    if (owner) {
+      capitalizedFirstName = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
+      capitalizedLastName = owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1);
+    }
 
     return(
       <div className="actions--bar">
         <div className="bounds">
           <div className="grid-100">
             <span>
-              <a className="button" href={`/courses/${ id }/update`}>Update Course</a>
-              <a className="button" onClick={ () => context.actions.deleteCourse( id ) } href={`/courses/${ id }/delete`}>Delete Course</a>
+              <button className="button" onClick={ () => this.isOwner(`/courses/${ id }/update`) }>Update Course</button>
+              <button className="button" onClick={ () => this.isOwner(`/courses/${ id }/delete`) }>Delete Course</button>
             </span>
             <a className="button button-secondary" href="/">Return to List</a>
           </div>
@@ -44,7 +63,7 @@ export default class CourseDetail extends React.Component {
             <div className="course--header">
               <h4 className="course--label">Course</h4>
               <h3 className="course--title">{ title }</h3>
-              <p>By Joe Smith</p>
+              <p>By { `${capitalizedFirstName} ${capitalizedLastName}` }</p>
             </div>
             <div className="course--description">
               <p>{ description }</p>

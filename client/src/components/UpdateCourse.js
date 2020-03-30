@@ -1,14 +1,17 @@
 import React from 'react';
+import FormErrors from './FormErrors';
 
 class UpdateCourse extends React.Component {
 
   state = {
+    id: "",
     title: "",
     description: "",
     estimatedTime: "",
     materialsNeeded: "",
     userId: "",
-    errors: []
+    errors: [],
+    owner: ""
   }
 
   change = (e) => {
@@ -22,17 +25,21 @@ class UpdateCourse extends React.Component {
 
   componentDidMount() {
     const { context, match } = this.props;
-    context.actions.getCourses(match.params.id)
+    const { id } = match.params;
+
+    context.actions.getCourses(id)
     .then(data => {
       if (data === null) {
         this.props.history.push("/notfound");
       } else {
         this.setState({
+          id: data.id,
           title: data.title,
           description: data.description,
           estimatedTime: data.estimatedTime,
           materialsNeeded: data.materialsNeeded,
-          userId: data.userId
+          userId: data.userId,
+          owner: data.owner
         });
       }
     })
@@ -43,8 +50,8 @@ class UpdateCourse extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
-    const { title, description, estimatedTime, materialsNeeded, userId } = this.state;
     const { context } = this.props;
+    const { id, title, description, estimatedTime, materialsNeeded, userId } = this.state;
 
     const body = {
       title,
@@ -54,28 +61,34 @@ class UpdateCourse extends React.Component {
       userId
     };
 
-    if (context.authenticatedUser.id === userId) {
-      context.actions.postCourse(body)
-      .then(error => {
-        if (error) {
-          this.setState({ errors: error });
-        } else {
-          context.actions.putCourse(body);
-        }
-      })
-      .catch(err => this.props.history.push("/error"));
-    } else {
-      this.props.history.push("/forbidden");
-    }
+    context.actions.putCourse(id, body)
+    .then(error => {
+      if (error) {
+        e.persist();
+        this.setState({ errors: error });
+      } else {
+        return null;
+      }
+    })
+    .catch(err => this.props.history.push("/error"));
   } 
 
   render() {
-    const { title, description, estimatedTime, materialsNeeded } = this.state;
+    const { title, description, estimatedTime, materialsNeeded, errors, owner } = this.state;
+
+    let capitalizedFirstName;
+    let capitalizedLastName;
+    
+    if (owner) {
+      capitalizedFirstName = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
+      capitalizedLastName = owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1);
+    }
 
     return(
       <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
+          <FormErrors errors={ errors } />
           <form onSubmit={ (e) => this.submit(e) }>
             <div className="grid-66">
               <div className="course--header">
@@ -86,7 +99,7 @@ class UpdateCourse extends React.Component {
                     value={ title } onChange={ (e) => this.change(e) }
                   />
                 </div>
-                <p>By Joe Smith</p>
+                <p>{`By ${capitalizedFirstName} ${capitalizedLastName}`}</p>
               </div>
               <div className="course--description">
                 <div>
