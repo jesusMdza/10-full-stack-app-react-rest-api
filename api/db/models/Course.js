@@ -44,18 +44,7 @@ module.exports = (sequelize) => {
     },
   },
   {
-    hooks: {
-      beforeValidate: async (course, options) => {
-        /* Custom test - Send appropriate error messages if empty object sent over in request */
-        if (options.skip.length > 0) {
-          const err = new Error(400);
-          err.name = "SequelizeValidationError";
-          err.errors = [{ message: "Title is required" }, { message: "Description is required" }]
-          throw err;
-        }
-      }
-    }, 
-    sequelize
+    sequelize  
   });
 
   // one-to-many association between Course (target) and User (source)
