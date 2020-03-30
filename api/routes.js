@@ -164,13 +164,18 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res, next) =>
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
   try {
     const course = await Course.findByPk(req.params.id);
-    await course.update(req.body);
+    course.title = req.body.title || "";
+    course.description = req.body.description || "";
+    course.estimatedTime = req.body.estimatedTime || "";
+    course.materialsNeeded = req.body.materialsNeeded || "";
+
+    await course.save();
     res.status(204).end();
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const errorMessages = [];
       error.errors.map(error => errorMessages.push(error.message));
-      res.status(400).json({message: errorMessages});
+      res.status(400).json({error: errorMessages});
     } else {
       throw error;
     }
