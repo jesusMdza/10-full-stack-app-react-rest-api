@@ -54,9 +54,13 @@ class CreateCourse extends React.Component {
   render(){
     const { context } = this.props;
     const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
+    let capitalizedFirstName;
+    let capitalizedLastName;
 
-    const capitalizedFirstName = context.authenticatedUser.firstName.charAt(0).toUpperCase() + context.authenticatedUser.firstName.slice(1);
-    const capitalizedLastName = context.authenticatedUser.lastName.charAt(0).toUpperCase() + context.authenticatedUser.lastName.slice(1);
+    if (context.authenticatedUser) {
+      capitalizedFirstName = context.authenticatedUser.firstName.charAt(0).toUpperCase() + context.authenticatedUser.firstName.slice(1);
+      capitalizedLastName = context.authenticatedUser.lastName.charAt(0).toUpperCase() + context.authenticatedUser.lastName.slice(1);
+    }
 
     return(
       <div className="bounds course--detail">
