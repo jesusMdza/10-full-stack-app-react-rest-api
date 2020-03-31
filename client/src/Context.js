@@ -44,6 +44,7 @@ export class Provider extends Component {
       authenticatedUser: {
         id: user.id,
         firstName: user.firstName,
+        lastName: user.lastName,
         emailAddress: user.emailAddress,
         password: password
       },
