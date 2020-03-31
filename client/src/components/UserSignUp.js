@@ -12,6 +12,7 @@ class UserSignUp extends React.Component {
     errors: []
   }
 
+  // updates specific state property with user's input value
   change = (e) => {
     const name = e.target.name;
     const value = e.target.value;

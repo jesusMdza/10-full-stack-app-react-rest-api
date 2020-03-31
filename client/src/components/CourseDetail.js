@@ -23,7 +23,8 @@ export default class CourseDetail extends React.Component {
     });
   }
 
-  isOwner = (id) => {
+  // Delete's course if authenticated user owns course
+  isOwnerDeleteCourse = (id) => {
     const { context } = this.props;
     const { course } = this.state;
     const { owner } = course;
@@ -68,7 +69,7 @@ export default class CourseDetail extends React.Component {
                 authUserId && ownerId === authUserId ?
                   <>
                     <a className="button" href={`/courses/${ id }/update`}>Update Course</a>
-                    <button className="button" onClick={ () => this.isOwner( id )}>Delete Course</button>  
+                    <button className="button" onClick={ () => this.isOwnerDeleteCourse( id )}>Delete Course</button>  
                   </> 
                 :
                 null               

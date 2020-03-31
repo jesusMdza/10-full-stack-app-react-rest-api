@@ -24,7 +24,7 @@ class UpdateCourse extends React.Component {
     });
   }
 
-  // returns true if authorized (signed-in) user owns the current course selected
+  // returns true if authorized (signed in) user owns the current course selected
   isOwner = (data, context) => {
     if (data.owner.id === context.authenticatedUser.id) {
       return true;

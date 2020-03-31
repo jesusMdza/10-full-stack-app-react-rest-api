@@ -9,6 +9,7 @@ class UserSignIn extends React.Component {
     errors: []
   }
 
+  // updates specific state property with user's input value
   change = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -30,7 +31,6 @@ class UserSignIn extends React.Component {
           this.setState({ errors: {error: ["Sign-in unsuccessful."]} });
         } else {
           e.persist();
-          this.setState({ errors: [] });
           this.props.history.push(from);
         }
       })
