@@ -29,8 +29,11 @@ export default class CourseDetail extends React.Component {
     const { owner } = course;
 
     if (owner.id === context.authenticatedUser.id) {
-      context.actions.deleteCourse(id);
-      this.props.history.push("/");
+      context.actions.deleteCourse(id)
+        .then(data => this.props.history.push("/"))
+        .catch(err => {
+          this.props.history.push("/error");
+        });
     } else {
       this.props.history.push("/forbidden");
     }
@@ -43,7 +46,12 @@ export default class CourseDetail extends React.Component {
  
     let capitalizedFirstName;
     let capitalizedLastName;
+    let authUserId;
     let ownerId;
+
+    if (context.authenticatedUser) {
+      authUserId = context.authenticatedUser.id;
+    }
     
     if (owner) {
       capitalizedFirstName = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
@@ -57,7 +65,7 @@ export default class CourseDetail extends React.Component {
           <div className="grid-100">
             <span>
               {
-                ownerId === context.authenticatedUser.id ?
+                authUserId && ownerId === authUserId ?
                   <>
                     <a className="button" href={`/courses/${ id }/update`}>Update Course</a>
                     <button className="button" onClick={ () => this.isOwner( id )}>Delete Course</button>  
