@@ -14,6 +14,7 @@ class UpdateCourse extends React.Component {
     owner: ""
   }
 
+  // updates specific state property with user's input value
   change = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -21,6 +22,15 @@ class UpdateCourse extends React.Component {
     this.setState({
       [name]: value
     });
+  }
+
+  // returns true if authorized (signed-in) user owns the current course selected
+  isOwner = (data, context) => {
+    if (data.owner.id === context.authenticatedUser.id) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   componentDidMount() {
@@ -32,15 +42,23 @@ class UpdateCourse extends React.Component {
       if (data === null) {
         this.props.history.push("/notfound");
       } else {
-        this.setState({
-          id: data.id,
-          title: data.title,
-          description: data.description,
-          estimatedTime: data.estimatedTime,
-          materialsNeeded: data.materialsNeeded,
-          userId: data.userId,
-          owner: data.owner
-        });
+        let isOwner = this.isOwner( data, context );
+        
+        // if true, set data properties to state
+        // else, display "forbidden" page to user
+        if (isOwner) {
+          this.setState({
+            id: data.id,
+            title: data.title,
+            description: data.description,
+            estimatedTime: data.estimatedTime,
+            materialsNeeded: data.materialsNeeded,
+            userId: data.userId,
+            owner: data.owner
+          });
+        } else {
+          this.props.history.push("/forbidden");
+        }
       }
     })
     .catch(err => {
@@ -67,15 +85,15 @@ class UpdateCourse extends React.Component {
         e.persist();
         this.setState({ errors: error });
       } else {
-        return null;
+        this.props.history.push(`/courses/${ id }`);
       }
     })
     .catch(err => this.props.history.push("/error"));
   } 
 
+
   render() {
     const { title, description, estimatedTime, materialsNeeded, errors, owner } = this.state;
-
     let capitalizedFirstName;
     let capitalizedLastName;
     
