@@ -10,7 +10,8 @@ export class Provider extends Component {
     password: Cookies.getJSON('password') || null
   }
 
-  // access api and handles all calls
+  // helper function that handles all api calls
+  // returns response from api
   api = async (url, method, body = null, requiresAuth = false, credentials = null) => {
     const options = {
       method: method, 
@@ -21,10 +22,12 @@ export class Provider extends Component {
       }
     }
 
+    // convert body to JSON
     if (body !== null) {
       options.body = JSON.stringify(body);
     }
 
+    // if authorization is required, encrypt user credentials
     if (requiresAuth === true) {
       const encryptedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`);
       options.headers["Authorization"] = `Basic ${encryptedCredentials}`;
@@ -33,6 +36,7 @@ export class Provider extends Component {
     return fetch(url, options);
   }
 
+  // sets and saves user identification throughout app if credentials are valid
   signIn = async (username, password) => {
     const user = await this.getUser(username, password);
     if (user) {
@@ -54,10 +58,12 @@ export class Provider extends Component {
   }
 
   signOut = () => {
-    this.setState({authenticatedUser: null});
+    this.setState({authenticatedUser: null, password: null});
     Cookies.remove('authenticatedUser');
+    Cookies.remove('password');
   }
 
+  // GET user by credentials
   getUser = async (emailAddress, password) => {
     const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
@@ -69,6 +75,7 @@ export class Provider extends Component {
     }
   } 
 
+  // POST a user
   postUser = async (body) => {
     const response = await this.api("http://localhost:5000/api/users", 'POST', body);
     if (response.status === 201) {
@@ -78,6 +85,7 @@ export class Provider extends Component {
     }
   }
 
+  // GET course
   getCourses = async (id) => {
     let response;
 
@@ -94,6 +102,7 @@ export class Provider extends Component {
     }
   }
 
+  // POST course
   postCourse = async (body) => {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
@@ -101,7 +110,7 @@ export class Provider extends Component {
 
     const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, { emailAddress, password });
     if (response.status === 201) {
-      return null;
+      return response.json();
     } else if (response.status === 400) {
       return response.json();
     } else {
@@ -109,6 +118,7 @@ export class Provider extends Component {
     }
   }
 
+  // PUT (update) a course
   putCourse = async (id, body) => {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
@@ -119,11 +129,14 @@ export class Provider extends Component {
       return null;
     } else if (response.status === 400) {
       return response.json();
+    } else if (response.status === 403) {
+      return null;
     } else {
       return new Error();
     }
   }
-          
+  
+  // DELETE course
   deleteCourse = async (id) => {
     const { authenticatedUser } = this.state;
     const { password } = this.state;
@@ -132,8 +145,10 @@ export class Provider extends Component {
     const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null, true, { emailAddress, password });
     if (response.status === 204) {
       return response.status;
-    } else {
+    } else if (response.status === 403) {
       return response.status;
+    } else {
+      return new Error();
     }
   } 
 
@@ -164,6 +179,7 @@ export class Provider extends Component {
 
 export const Consumer = Context.Consumer;
 
+// Wraps Context around Component
 export default function withContext(Component) {
   return function ContextComponent(props) {
     return (
