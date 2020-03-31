@@ -82,7 +82,7 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res, next) => {
 // POST user(s)
 router.post('/users', asyncHandler(async (req, res, next) => {
   try {
-    
+
     // attempts to find existing user by email
     const existingUser = await User.findOne({
       where: {
@@ -108,7 +108,7 @@ router.post('/users', asyncHandler(async (req, res, next) => {
       res.status(400).json({error: errorMessages});
     } else if (error.message === "Email already exists") {
       res.status(400).json({error: [error.message]});
-    }else {
+    } else {
       throw error;
     }
   }
@@ -164,7 +164,7 @@ router.get('/courses/:id', asyncHandler(async (req, res, next) => {
 router.post('/courses', authenticateUser, asyncHandler(async (req, res, next) => {
   try {
     const course = await Course.create(req.body);
-    res.status(201).location(`/courses/${course.id}`).end();
+    res.status(201).json({ course: course });
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const errorMessages = [];
@@ -192,6 +192,8 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res, next)
       const errorMessages = [];
       error.errors.map(error => errorMessages.push(error.message));
       res.status(400).json({error: errorMessages});
+    } else if (error.message === "You are not authorized to modify this course") {
+      res.status(403);
     } else {
       throw error;
     }
@@ -202,10 +204,21 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res, next)
 router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res, next) => {
   try {
     const course = await Course.findByPk(req.params.id);
-    await course.destroy();
-    res.status(204).end();
+    const ownerId = course.dataValues.userId;
+    const currentUserId = req.currentUser.id;
+
+    if (ownerId === currentUserId) {
+      await course.destroy();
+      res.status(204).end();
+    } else {
+      throw new Error("You are not authorized to modify this course");
+    }
   } catch (error) {
-    throw error;
+    if (error.message === "You are not authorized to modify this course") {
+      res.status(403).end();
+    } else {
+      throw error;
+    }
   }
 }));
 
