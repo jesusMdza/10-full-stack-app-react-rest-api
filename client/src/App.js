@@ -3,8 +3,7 @@ import './styles/global.css';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom';
 
 // import external components
@@ -46,7 +45,6 @@ const App = () => {
             <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
             <Route exact path="/courses/:id" component={CourseDetailWithContext} />
             <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
-            <PrivateRoute exact path="/courses/:id/delete" component={() => <Redirect to="/" />} />
             <Route exact path="/signin" component={UserSignInWithContext} />
             <Route exact path="/signup" component={UserSignUpWithContext} />
             <Route exact path="/signout" component={UserSignOutWithContext} />
