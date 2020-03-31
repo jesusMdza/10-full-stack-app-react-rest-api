@@ -22,29 +22,33 @@ export default class CourseDetail extends React.Component {
       this.props.history.push("/error");
     });
   }
-  
-  isOwner = (path) => {
+
+  isOwner = (id) => {
     const { context } = this.props;
     const { course } = this.state;
     const { owner } = course;
 
     if (owner.id === context.authenticatedUser.id) {
-      this.props.history.push( path );
+      context.actions.deleteCourse(id);
+      this.props.history.push("/");
     } else {
-      this.props.history.push( "/forbidden" );
+      this.props.history.push("/forbidden");
     }
   }
 
   render(){
+    const { context } = this.props;
     const { course } = this.state;
     const { id, title, description, estimatedTime, materialsNeeded, owner } = course;
-
+ 
     let capitalizedFirstName;
     let capitalizedLastName;
+    let ownerId;
     
     if (owner) {
       capitalizedFirstName = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
       capitalizedLastName = owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1);
+      ownerId = owner.id;
     }
 
     return(
@@ -52,8 +56,15 @@ export default class CourseDetail extends React.Component {
         <div className="bounds">
           <div className="grid-100">
             <span>
-              <button className="button" onClick={ () => this.isOwner(`/courses/${ id }/update`) }>Update Course</button>
-              <button className="button" onClick={ () => this.isOwner(`/courses/${ id }/delete`) }>Delete Course</button>
+              {
+                ownerId === context.authenticatedUser.id ?
+                  <>
+                    <a className="button" href={`/courses/${ id }/update`}>Update Course</a>
+                    <button className="button" onClick={ () => this.isOwner( id )}>Delete Course</button>  
+                  </> 
+                :
+                null               
+              }
             </span>
             <a className="button button-secondary" href="/">Return to List</a>
           </div>
