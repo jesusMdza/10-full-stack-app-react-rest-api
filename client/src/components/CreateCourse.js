@@ -48,7 +48,11 @@ class CreateCourse extends React.Component {
   }
 
   render(){
+    const { context } = this.props;
     const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
+
+    const capitalizedFirstName = context.authenticatedUser.firstName.charAt(0).toUpperCase() + context.authenticatedUser.firstName.slice(1);
+    const capitalizedLastName = context.authenticatedUser.lastName.charAt(0).toUpperCase() + context.authenticatedUser.lastName.slice(1);
 
     return(
       <div className="bounds course--detail">
@@ -63,7 +67,7 @@ class CreateCourse extends React.Component {
                   <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
                     onChange={(e) => this.change(e)} value={ title } />
                 </div>
-                <p>By Joe Smith</p>
+                <p>By {`${capitalizedFirstName} ${capitalizedLastName}`}</p>
               </div>
               <div className="course--description">
                 <div>
