@@ -82,17 +82,33 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res, next) => {
 // POST user(s)
 router.post('/users', asyncHandler(async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
-    await user.update({
-      password: bcryptjs.hashSync(req.body.password)
+    
+    // attempts to find existing user by email
+    const existingUser = await User.findOne({
+      where: {
+        emailAddress: req.body.emailAddress
+      }
     });
-    res.status(201).location('/').end();
+
+    // create user if existingUser is null
+    // throw error if existingUser is returned
+    if (existingUser === null) { 
+      const user = await User.create(req.body);
+      await user.update({
+        password: bcryptjs.hashSync(req.body.password)
+      });
+      res.status(201).location('/').end();
+    } else { 
+      throw new Error("Email already exists");
+    }
   } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const errorMessages = [];
       error.errors.map(error => errorMessages.push(error.message));
       res.status(400).json({error: errorMessages});
-    } else {
+    } else if (error.message === "Email already exists") {
+      res.status(400).json({error: [error.message]});
+    }else {
       throw error;
     }
   }
