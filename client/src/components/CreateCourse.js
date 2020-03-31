@@ -35,16 +35,19 @@ class CreateCourse extends React.Component {
     };
 
     context.actions.postCourse(body)
-    .then(error => {
-      console.log(error);
-      if (error) {
+    .then(data => {
+      if (data.error) {
         e.persist();
+        const error = {error: data.error};
         this.setState({ errors: error });
-      } else {
-        return null;
+      } else if (data.course) {
+        const courseId = data.course.id;
+        this.props.history.push(`/courses/${ courseId }`);
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      this.props.history.push("/error");
+    });
   }
 
   render(){
