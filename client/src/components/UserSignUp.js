@@ -22,40 +22,49 @@ class UserSignUp extends React.Component {
     });
   }
 
-  submit = async (e, body, confirmPassword) => {
+  submit = async (e, body) => {
     const { context } = this.props;
-    const { emailAddress, password, errors } = this.state;
+    const { emailAddress, password, confirmPassword, errors } = this.state;
     const { from } = this.props.location.state || { from: "/" };
 
-    if (password !== confirmPassword) {
-      e.preventDefault();
-      if (!errors.includes("Passwords do not match.")) {
-        if (errors.length > 0) {
-          this.setState({ errors: [...errors, "Passwords do not match."] });
-        } else {
-          this.setState({ errors: ["Passwords do not match."] });
+    e.preventDefault();
+    context.actions.postUser(body)
+      .then(errors => {
+        e.persist();
+        // if errors are returned
+        if (errors) {
+          this.setState({ errors: errors });
+
+          // and passwords do NOT match
+          // set "errors" state to new array with all errors
+          if (password !== confirmPassword) {
+            const newErrArr = [...errors.error];
+            newErrArr.push("Passwords do not match");
+            this.setState({ errors: {error: newErrArr} });
+          } 
+          // and passwords match
+          else {
+            return null;
+          }
         }
-      } else {
-        return null;
-      }
-    } else {
-      e.preventDefault();
-      context.actions.postUser(body)
-        .then(errors => {
-          if (errors) {
-            e.persist();
-            this.setState({ errors: errors });
-          } else {
+        // errors do not exist
+        else {
+          // and passwords do NOT match
+          if (password !== confirmPassword) {
+            this.setState({ errors: {error: ["Passwords do not match"]} });
+          } 
+          // and passwords match
+          else {
             context.actions.signIn(emailAddress, password);
             this.props.history.push(from);
-          }
-        });
-    }
+          }          
+        }
+      });
   }
 
   render() {
     const { firstName, lastName, emailAddress, password, confirmPassword, errors } = this.state;
-    const body = { firstName, lastName, emailAddress, password };
+    const body = { firstName, lastName, emailAddress, password, confirmPassword };
 
     return(
       <div className="bounds">
@@ -63,7 +72,7 @@ class UserSignUp extends React.Component {
           <h1>Sign Up</h1>
           <div>
             <FormErrors errors={ errors } />
-            <form onSubmit={ (e) => this.submit(e, body, confirmPassword) }>
+            <form onSubmit={ (e) => this.submit(e, body) }>
               <div>
                 <input 
                   id="firstName" name="firstName" type="text" className="" placeholder="First Name" value={ firstName }
