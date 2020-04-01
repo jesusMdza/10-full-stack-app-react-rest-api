@@ -28,36 +28,14 @@ class UserSignUp extends React.Component {
     const { from } = this.props.location.state || { from: "/" };
 
     e.preventDefault();
-    context.actions.postUser(body)
+    context.actions.postUser(body, password, confirmPassword)
       .then(errors => {
         e.persist();
-        // if errors are returned
         if (errors) {
           this.setState({ errors: errors });
-
-          // and passwords do NOT match
-          // set "errors" state to new array with all errors
-          if (password !== confirmPassword) {
-            const newErrArr = [...errors.error];
-            newErrArr.push("Passwords do not match");
-            this.setState({ errors: {error: newErrArr} });
-          } 
-          // and passwords match
-          else {
-            return null;
-          }
-        }
-        // errors do not exist
-        else {
-          // and passwords do NOT match
-          if (password !== confirmPassword) {
-            this.setState({ errors: {error: ["Passwords do not match"]} });
-          } 
-          // and passwords match
-          else {
-            context.actions.signIn(emailAddress, password);
-            this.props.history.push(from);
-          }          
+        } else {
+          context.actions.signIn(emailAddress, password);
+          this.props.history.push(from);
         }
       })
       .catch(err => {
