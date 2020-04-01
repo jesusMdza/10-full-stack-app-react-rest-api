@@ -77,12 +77,17 @@ export class Provider extends Component {
   } 
 
   // POST a user
-  postUser = async (body) => {
-    const response = await this.api("http://localhost:5000/api/users", 'POST', body);
-    if (response.status === 201) {
-      return null;
-    } else if (response.status === 400) {
-      return response.json();
+  postUser = async (body, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      const customError = {error: ["Passwords do not match"]};
+      return customError;
+    } else {
+      const response = await this.api("http://localhost:5000/api/users", 'POST', body);
+      if (response.status === 201) {
+        return null;
+      } else if (response.status === 400) {
+        return response.json();
+      }
     }
   }
 
