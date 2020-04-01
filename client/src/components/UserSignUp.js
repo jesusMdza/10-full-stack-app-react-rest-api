@@ -59,7 +59,10 @@ class UserSignUp extends React.Component {
             this.props.history.push(from);
           }          
         }
-      });
+      })
+      .catch(err => {
+        this.props.history.push("/error");
+      });;
   }
 
   render() {
