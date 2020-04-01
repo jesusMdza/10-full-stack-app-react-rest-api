@@ -1,4 +1,5 @@
 import React from 'react';
+const ReactMarkdown = require('react-markdown');
 
 export default class CourseDetail extends React.Component {
 
@@ -99,7 +100,13 @@ export default class CourseDetail extends React.Component {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    {materialsNeeded ? <li>{ materialsNeeded }</li> : null}
+                    {
+                      materialsNeeded ? 
+                        <ReactMarkdown source={ materialsNeeded } renderers={{textarea: props => <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..."
+                        onChange={(e) => this.change(e)} />}} /> 
+                      :
+                      null
+                     }
                   </ul>
                 </li>
               </ul>
