@@ -143,7 +143,7 @@ class UpdateCourse extends React.Component {
                     <h4>Materials Needed</h4>
                     <div>
                       <textarea 
-                        id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." 
+                        id="materialsNeeded" name="materialsNeeded" className="" placeholder="Ex: * material 1"
                         value={ materialsNeeded } onChange={ (e) => this.change(e) }>
                       </textarea>
                     </div>

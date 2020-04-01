@@ -97,7 +97,7 @@ class CreateCourse extends React.Component {
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                      <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..."
+                      <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="Ex: * material 1"
                         onChange={(e) => this.change(e)} value={ materialsNeeded } />
                     </div>
                   </li>
