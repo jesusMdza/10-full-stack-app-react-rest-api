@@ -24,7 +24,7 @@ class UserSignUp extends React.Component {
 
   submit = async (e, body) => {
     const { context } = this.props;
-    const { emailAddress, password, confirmPassword, errors } = this.state;
+    const { emailAddress, password, confirmPassword } = this.state;
     const { from } = this.props.location.state || { from: "/" };
 
     e.preventDefault();
