@@ -104,7 +104,7 @@ export class Provider extends Component {
     if (response.status === 200) {
       return response.json();
     } else {
-      return null;
+      return new Error();
     }
   }
 
