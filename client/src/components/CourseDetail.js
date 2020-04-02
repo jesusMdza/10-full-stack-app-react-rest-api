@@ -87,7 +87,7 @@ export default class CourseDetail extends React.Component {
               <p>By { `${capitalizedFirstName} ${capitalizedLastName}` }</p>
             </div>
             <div className="course--description">
-              <p>{ description }</p>
+              <ReactMarkdown source={ description } />
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -103,7 +103,7 @@ export default class CourseDetail extends React.Component {
                     {
                       materialsNeeded ? 
                         <ReactMarkdown source={ materialsNeeded } renderers={{textarea: props => <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..."
-                        onChange={(e) => this.change(e)} />}} /> 
+                         />}} /> 
                       :
                       null
                      }
