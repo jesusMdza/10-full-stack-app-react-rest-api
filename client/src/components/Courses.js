@@ -14,7 +14,10 @@ export default class Courses extends React.Component {
     context.actions.getCourses()
       .then(data => {
         this.setState({courses: data});
-      });
+      })
+      .catch(err => {
+        this.props.history.push("/error");
+      });;
   }
 
   // Returns list of courses
