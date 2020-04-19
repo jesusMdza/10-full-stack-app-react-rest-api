@@ -3,8 +3,12 @@ import React from 'react';
 const Forbidden = () => {
   return(
     <div className="bounds">
-      <h1>Forbidden</h1>
-      <p>You are not authorized to modify this course.</p>
+      <div className="error-container">
+        <div>
+          <h1>401</h1>
+          <h1>Forbidden.</h1>
+        </div>
+      </div>
     </div>
   );
 }
