@@ -85,8 +85,10 @@ class UserSignUp extends React.Component {
                 />
               </div>
               <div className="grid-100 pad-bottom">
-                <button className="button" type="submit">Sign Up</button>
-                <button className="button button-secondary" onClick={(e) => { e.preventDefault(); this.props.history.push('/') }}>Cancel</button>
+                <div className="button-container">
+                  <button className="button signup-button" type="submit">Sign Up</button>
+                  <button className="button cancel-button" onClick={(e) => { e.preventDefault(); this.props.history.push('/') }}>Cancel</button>
+                </div>
               </div>
             </form>
           </div>

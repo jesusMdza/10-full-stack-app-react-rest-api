@@ -201,16 +201,19 @@ svg {
 
 /* line 5, ../sass/global.sass */
 body {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
   background: #fff;
 }
 
 /* line 13, ../sass/global.sass */
 .header {
-  background: #57496e;
-  padding: 20px 0;
-  margin-bottom: 30px;
+  background: #EEEEEE;
+  border: 7px solid #000;
+  padding: 15px 0;
+  margin-bottom: 90px;
+  z-index: 999;
 }
+
 /* line 17, ../sass/global.sass */
 .header--logo {
   color: #fff;
@@ -223,14 +226,6 @@ body {
 .header--logo a {
   color: rgba(255, 255, 255, 0.5);
 }
-/* line 25, ../sass/global.sass */
-.header--logo a:hover {
-  color: #fff;
-}
-/* line 27, ../sass/global.sass */
-.header--logo .selected {
-  color: #fff;
-}
 /* line 29, ../sass/global.sass */
 .header--logo .chevron {
   fill: rgba(255, 255, 255, 0.3);
@@ -241,22 +236,14 @@ body {
 /* line 34, ../sass/global.sass */
 .header nav {
   float: right;
-  margin-top: 3px;
 }
 /* line 37, ../sass/global.sass */
 .header nav a {
-  color: rgba(255, 255, 255, 0.5);
-  margin-left: 20px;
-}
-/* line 40, ../sass/global.sass */
-.header nav a:hover {
-  color: #fff;
+  margin-left: 45px;
 }
 
 /* line 44, ../sass/global.sass */
 .actions--bar {
-  border-bottom: 1px solid #d5f9fe;
-  background: #f8feff;
   padding: 20px 0;
   margin-top: -30px;
 }
@@ -270,44 +257,48 @@ body {
   clear: both;
 }
 /* line 50, ../sass/global.sass */
-.actions--bar .button {
+.actions--bar .button,
+.button-container .button {
   margin-right: 15px;
 }
 
 /* line 57, ../sass/global.sass */
 h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
+  font-size: 50px;
+  margin-bottom: 55px;
 }
 
 /* line 61, ../sass/global.sass */
 a {
-  color: #7c689b;
+  color: #18171C;
   cursor: pointer;
+  font-size: 18px;
+  letter-spacing: -.3px;
   text-decoration: none;
   -webkit-transition: color 0.2s;
   -moz-transition: color 0.2s;
   -ms-transition: color 0.2s;
   -o-transition: color 0.2s;
   transition: color 0.2s;
+  font-weight: 500;
 }
 
 /* line 66, ../sass/global.sass */
 p {
-  font-family: "Cousine";
+  font-family: 'Rubik', sans-serif;;
   margin-bottom: 30px;
 }
 
 /* line 70, ../sass/global.sass */
 .bounds {
-  max-width: 1250px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
 /* line 74, ../sass/global.sass */
 .grid, .grid-25, .grid-33, .grid-66, .grid-100 {
   float: left;
-  padding: 0 15px;
+  padding: 0 20px;
   box-sizing: border-box;
 }
 /* line 78, ../sass/global.sass */
@@ -317,14 +308,19 @@ p {
 /* line 81, ../sass/global.sass */
 .grid-33 {
   width: 33.3%;
+
 }
+
 /* line 84, ../sass/global.sass */
 .grid-66 {
   width: 66.6%;
+  padding: 0 0 0 0;
 }
 /* line 87, ../sass/global.sass */
 .grid-100 {
   width: 100%;
+  padding: 0;
+  display: flex;
 }
 /* line 90, ../sass/global.sass */
 .grid-right {
@@ -339,15 +335,20 @@ p {
 
 /* line 102, ../sass/global.sass */
 .course--module {
-  background: #7c689b;
-  border-radius: 8px;
-  padding: 30px;
-  margin-bottom: 30px;
-  min-height: 107px;
+  border: 7px solid #E8E8E8;
+  padding: 30px 35px 25px 35px;
+  margin-bottom: 40px;
+  min-height: 288px;
   display: block;
   position: relative;
   box-sizing: border-box;
 }
+
+/* styles course card on hover */
+.course--module:hover {
+  border: 7px solid #FFE600;
+}
+
 /* line 2, ../sass/mixins.sass */
 .course--module:before, .course--module:after {
   content: " ";
@@ -363,30 +364,36 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* style of editable course card */
+.course--editable {
+  border: 7px solid #D8D4FF;
+}
+
 /* line 116, ../sass/global.sass */
 .course--label {
-  font-family: "Cousine";
+  font-family: 'Rubik', sans-serif;;
   font-size: 14px;
-  font-weight: 100;
+  font-weight: 300;
   color: rgba(255, 255, 255, 0.5);
   margin-bottom: 10px;
   font-weight: normal;
 }
 /* line 123, ../sass/global.sass */
 .course--title {
-  font-size: 18px;
-  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+  color: #18171C;
+  margin-bottom: 25px;
 }
 /* line 126, ../sass/global.sass */
 .course--link {
   display: block;
   cursor: pointer;
   text-decoration: none;
-  border: 0;
 }
 /* line 133, ../sass/global.sass */
 .course--add--module {
-  background: #eee;
   text-align: center;
 }
 /* line 137, ../sass/global.sass */
@@ -426,7 +433,7 @@ p {
   margin-bottom: 30px;
 }
 /* line 164, ../sass/global.sass */
-.course--header .course--label {
+.course--label {
   font-size: 18px;
   color: #999;
 }
@@ -438,29 +445,48 @@ p {
 }
 /* line 171, ../sass/global.sass */
 .course--header p {
-  font-size: 18px;
-  color: #b1a5c4;
-  font-weight: 100;
+  font-size: 24px;
+  color: #18171C;
+  font-weight: 300;
 }
+
+.course--header span {
+  font-size: inherit;
+}
+
 /* line 176, ../sass/global.sass */
 .course--title--input {
   font-size: 48px;
   font-weight: bold;
-  font-family: "Work Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 /* line 186, ../sass/global.sass */
 .course--description {
+  color: #18171C;
   margin-bottom: 30px;
 }
+
+h4.course--description {
+  font-size: 20px;
+  line-height: 27px;
+  height: 113px;
+  font-weight: 400;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Barlow', sans-serif;
+}
+
 /* line 188, ../sass/global.sass */
 .course--description textarea {
   margin-bottom: 60px;
 }
 /* line 190, ../sass/global.sass */
 .course--description p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #444;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.4;
+  color: #000;
 }
 /* line 195, ../sass/global.sass */
 .course--description ol,
@@ -475,7 +501,7 @@ p {
   border-top: 1px solid #ccc;
   font-size: 16px;
   line-height: 1.8;
-  font-family: "Cousine";
+  font-family: 'Rubik', sans-serif;;
 }
 /* line 2, ../sass/mixins.sass */
 .course--description li:before, .course--description li:after {
@@ -514,7 +540,7 @@ p {
 .course--description h1,
 .course--description h2,
 .course--description h3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
   color: #222;
   margin-bottom: 30px;
 }
@@ -538,26 +564,57 @@ p {
   color: #999;
   display: block;
 }
+
+.course--stats h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.course--detail.view .course--stats--list {
+  margin-top: 40px;
+}
+
+.course--stats--list span {
+  font-size: 25px;
+}
+
+.course--stats--list li {
+  font-size: 20px;
+}
+
 /* line 287, ../sass/global.sass */
 .course--stats--list h4 {
-  font-family: "Cousine";
-  font-weight: 100;
-  color: #999;
-  font-size: 14px;
+  font-family: 'Rubik', sans-serif;;
+  font-weight: 700;
+  color: #18171C;
+  font-size: 26px;
   padding: 0 0 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  margin-bottom: 5px;
+  letter-spacing: -1.2px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 /* line 300, ../sass/global.sass */
 .course--stats--list h3 {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 18px;
 }
+
+.course--stats--list span {
+  font-family: "Barlow", sans-serif;
+}
+
+.course--stats--list .course--stats--list--item ul ul {
+  padding: 0;
+  font-family: 'Barlow', sans-serif;
+}
+
+.course--stats--list .course--stats--list--item ul ul li {
+  list-style-type: square;
+  padding-left: 5px;
+}
+
 /* line 303, ../sass/global.sass */
 .course--stats--list > li {
   margin-bottom: 50px;
@@ -573,7 +630,7 @@ p {
 }
 /* line 311, ../sass/global.sass */
 .course--time--input {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 18px;
   font-weight: bold;
   margin: 0;
@@ -587,57 +644,59 @@ p {
 
 /* line 468, ../sass/global.sass */
 textarea {
-  width: 100%;
   min-height: 300px;
-  border-radius: 8px;
-  background: #fff;
+  width: 100%;
+  color: #18171C;
+  border: 5px solid #E8E8E8;
   padding: 15px;
-  font-size: 16px;
-  margin: 0 0 20px;
-  border: 1px solid #ccc4d8;
-  color: #666;
-  line-height: 1.8;
+  margin-bottom: 15px;
   outline: none;
-  font-family: "Cousine";
   box-sizing: border-box;
+  font-size: 20px;
+  font-family: Barlow;
+  font-weight: 700;
+  box-sizing: border-box;
+  line-height: 1.8;
 }
 /* line 29, ../sass/mixins.sass */
 textarea::-webkit-input-placeholder {
   font-weight: normal;
-  font-size: 16px;
+  font-size: 20px;
 }
 /* line 31, ../sass/mixins.sass */
 textarea:-moz-placeholder {
   font-weight: normal;
-  font-size: 16px;
+  font-size: 20px;
 }
 /* line 33, ../sass/mixins.sass */
 textarea::-moz-placeholder {
   font-weight: normal;
-  font-size: 16px;
+  font-size: 20px;
 }
 /* line 35, ../sass/mixins.sass */
 textarea:-ms-input-placeholder {
   font-weight: normal;
-  font-size: 16px;
+  font-size: 20px;
 }
 /* line 485, ../sass/global.sass */
 textarea:focus {
-  border-color: #7c689b;
+  border-color: #FFE600;
 }
 
 /* line 488, ../sass/global.sass */
 input {
   width: 100%;
-  color: #332a40;
-  border-radius: 8px;
-  border: 1px solid #ccc4d8;
+  color: #18171C;
+  border: 5px solid #E8E8E8;
   padding: 15px;
   margin-bottom: 15px;
   outline: none;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 20px;
+  font-family: Barlow;
+  font-weight: 700;
 }
+
 /* line 29, ../sass/mixins.sass */
 input::-webkit-input-placeholder {
   font-weight: normal;
@@ -656,7 +715,7 @@ input:-ms-input-placeholder {
 }
 /* line 500, ../sass/global.sass */
 input:focus {
-  border-color: #7c689b;
+  border-color: #FFE600;
 }
 
 /* line 29, ../sass/mixins.sass */
@@ -678,17 +737,16 @@ input:focus {
 
 /* line 507, ../sass/global.sass */
 .button {
-  background: #7c689b;
-  color: #fff;
-  font-family: "Work Sans", sans-serif;
-  font-size: 18px;
-  padding: 15px 30px;
-  border: 0;
+  font-family: "Rubik", sans-serif;
+  font-size: 19px;
+  padding: 8px 10px;
+  border: 5px solid #18171C;
   margin-right: 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   box-sizing: border-box;
+  font-weight: 500;
+  cursor: pointer;
   -webkit-transition: background 0.2s;
   -moz-transition: background 0.2s;
   -ms-transition: background 0.2s;
@@ -698,27 +756,6 @@ input:focus {
 /* line 520, ../sass/global.sass */
 .button:focus {
   outline: none;
-}
-/* line 522, ../sass/global.sass */
-.button:not(.button-secondary):hover {
-  background: #63537d;
-}
-
-/* line 525, ../sass/global.sass */
-.button-secondary {
-  color: #7c689b;
-  background: none;
-  box-shadow: 0 0 0 2px #7c689b inset;
-  -webkit-transition: box-shadow 0.2s, color 0.2s;
-  -moz-transition: box-shadow 0.2s, color 0.2s;
-  -ms-transition: box-shadow 0.2s, color 0.2s;
-  -o-transition: box-shadow 0.2s, color 0.2s;
-  transition: box-shadow 0.2s, color 0.2s;
-}
-/* line 530, ../sass/global.sass */
-.button-secondary:hover {
-  color: #63537d;
-  box-shadow: 0 0 0 2px #63537d inset;
 }
 
 /* adds additional padding to the bottom of an element */
@@ -733,21 +770,162 @@ input:focus {
 
 /* styles the signed in user's name in the header */
 .header nav span {
-  color: #fff;
+  color: #878787;
+  font-weight: 500;
+  font-size: 18px;
   margin-left: 20px;
 }
 
 /* styles the validation errors */
 .validation--errors--label {
-  color: #7c689b;
+  color: #FF0000;
   font-size: 28px;
 }
 .validation-errors ul {
-  color: #7c689b;
-  padding: 15px 0 40px 10px;
+  color: #FF0000;
+  padding: 15px 0 40px 0;
 }
 
 /* reduce bottom margin on the course description textarea element */
 .course--description textarea {
   margin-bottom: 20px;
+}
+
+/* heading of courses page */
+.main--heading {
+  letter-spacing: -1.5px;
+  font-size: 59px;
+}
+
+.main--heading--details {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 65px;
+  letter-spacing: -1.5px;
+}
+
+.course--extras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course--extras h5 {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.course--extras .course--author--card {
+  font-size: 15px;
+}
+
+.course--extras h5.owner {
+  color: #1400FF;
+}
+
+.course--option.course--option--editable svg {
+  width: 17px;
+  height: 17px;
+}
+
+.course--option.course--option--view svg {
+  width: 20px;
+  height: 20px;
+}
+
+.course--option {
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.course--option.course--option--editable {
+  color: #1400FF;
+}
+
+.course--option.course--option--view {
+  color: #afafaf;
+}
+
+.course--option h5 {
+  margin-left: 6px;
+}
+
+.course--grid {
+  margin: 0 -20px 0 -20px;
+}
+
+.heading--section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-button, .signin-button, .signup-button {
+  margin: 0;
+  background: #FFE600;
+}
+
+.back-button {
+  border: none;
+}
+
+.update-button, .save-button {
+  color: #1400FF;
+  background: #E9E7FF;
+  border: 5px solid #1400FF;
+}
+
+.delete-button {
+  color: #FF0000;
+  background: #FFF2F2;
+  border: 5px solid #FF0000;
+}
+
+.cancel-button {
+  color: #686868;
+  background: #fff;
+  border: 5px solid #a8a8a8;
+}
+
+.button svg {
+  margin-right: 5px;
+}
+
+.create-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.update-button svg,
+.delete-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.back-button svg {
+  width: 30px;
+  height: 30px;
+}
+
+.course--author--container {
+  margin-bottom: 70px;
+}
+
+.course--author--container span {
+  font-weight: 500;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+/* error styling */
+.error-container {
+  text-align: center;
+  height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
