@@ -93,36 +93,29 @@ class UpdateCourse extends React.Component {
 
 
   render() {
-    const { title, description, estimatedTime, materialsNeeded, errors, owner } = this.state;
-    let capitalizedFirstName;
-    let capitalizedLastName;
-    
-    if (owner) {
-      capitalizedFirstName = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
-      capitalizedLastName = owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1);
-    }
+    const { title, description, estimatedTime, materialsNeeded, errors } = this.state;
 
     return(
       <div className="bounds course--detail">
-        <h1>Update Course</h1>
+        <h1>Edit Course</h1>
         <div>
           <FormErrors errors={ errors } />
           <form onSubmit={ (e) => this.submit(e) }>
             <div className="grid-66">
               <div className="course--header">
-                <h4 className="course--label">Course</h4>
+                <h5 className="course--label">Title</h5>
                 <div>
                   <input 
-                    id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
+                    id="title" name="title" type="text" className="input-title course--title--input" placeholder="Title..."
                     value={ title } onChange={ (e) => this.change(e) }
                   />
                 </div>
-                <p>{`By ${capitalizedFirstName} ${capitalizedLastName}`}</p>
               </div>
               <div className="course--description">
+                <h5 className="course--label">Description</h5>
                 <div>
                   <textarea 
-                    id="description" name="description" className="" placeholder="Course description..." value={ description } onChange={ (e) => this.change(e) }>
+                    id="description" name="description" className="" placeholder="Description..." value={ description } onChange={ (e) => this.change(e) }>
                   </textarea>
                 </div>
               </div>
@@ -131,7 +124,7 @@ class UpdateCourse extends React.Component {
               <div className="course--stats">
                 <ul className="course--stats--list">
                   <li className="course--stats--list--item">
-                    <h4>Estimated Time</h4>
+                    <h5 className="course--label">Time</h5>
                     <div>
                       <input 
                         id="estimatedTime" name="estimatedTime" type="text" className="course--time--input"
@@ -140,7 +133,7 @@ class UpdateCourse extends React.Component {
                     </div>
                   </li>
                   <li className="course--stats--list--item">
-                    <h4>Materials Needed</h4>
+                    <h5 className="course--label">Materials Needed</h5>
                     <div>
                       <textarea 
                         id="materialsNeeded" name="materialsNeeded" className="" placeholder="Ex: * material 1"
@@ -151,7 +144,17 @@ class UpdateCourse extends React.Component {
                 </ul>
               </div>
             </div>
-            <div className="grid-100 pad-bottom"><button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick={(e) => {e.preventDefault(); this.props.history.push('/')}}>Cancel</button></div>
+            <div className="grid-100 pad-bottom">
+              <button className="button save-button" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-save">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                <span>Save</span>
+              </button>
+              <button className="button cancel-button" onClick={(e) => {e.preventDefault(); this.props.history.push('/')}}>Cancel</button>
+            </div>
           </form>
         </div>
       </div>
