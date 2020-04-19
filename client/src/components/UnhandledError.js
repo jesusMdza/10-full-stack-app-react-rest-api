@@ -3,8 +3,12 @@ import React from 'react';
 const UnhandledError = () => {
   return(
     <div className="bounds">
-      <h1>Error</h1>
-      <p>Sorry! We just encountered an unexpected error.</p>
+      <div className="error-container">
+        <div className="error-text">
+          <h1>500</h1>
+          <h1>Unexpected Error.</h1>
+        </div>
+      </div>
   </div>
   );
 }
