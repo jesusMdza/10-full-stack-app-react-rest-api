@@ -22,12 +22,18 @@ export default class Courses extends React.Component {
 
   // Returns list of courses
   returnCourses = () => {
+    const { context } = this.props;
     const { courses } = this.state;
     const courseData = courses.map(course => 
       <Course 
         key={course.id} 
         id={course.id} 
-        title={course.title} />
+        title={course.title}
+        description={course.description}
+        owner={course.owner}
+        firstName={course.owner.firstName}
+        lastName={course.owner.lastName}
+        context={context} />
     );
 
     return courseData;
@@ -38,21 +44,25 @@ export default class Courses extends React.Component {
 
     return(
       <div className="bounds">
-        { 
-          courses ? 
-          this.returnCourses()
-          : 
-          null 
-        }
-        <div className="grid-33">
-          <a className="course--module course--add--module" href="/courses/create">
-            <h3 className="course--add--title">
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                viewBox="0 0 13 13" className="add">
-                <polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon>
-              </svg>New Course
-            </h3>
-          </a>
+        <div className="heading--section">
+          <h1 className="main--heading">Courses</h1>
+          <div>
+            <a className="button create-button" href="/courses/create">
+              <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="7" y="14" width="14" height="2" transform="rotate(-90 7 14)" fill="black"/>
+                <rect x="0.5" y="6" width="14.5" height="2" fill="black"/>
+              </svg>
+              <span>Create Course</span>
+            </a>
+          </div>
+        </div>
+        <div className="course--grid">
+          { 
+            courses ? 
+            this.returnCourses()
+            : 
+            null 
+          }
         </div>
       </div>
     );
