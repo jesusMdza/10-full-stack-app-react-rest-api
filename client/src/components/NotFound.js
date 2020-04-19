@@ -3,8 +3,12 @@ import React from 'react';
 const NotFound = () => {
   return(
     <div className="bounds">
-      <h1>Not Found</h1>
-      <p>Sorry! We couldn't find the page you're looking for.</p>
+      <div className="error-container">
+        <div className="error-text">
+          <h1>404</h1>
+          <h1>Page Not Found.</h1>
+        </div>
+      </div>
     </div>
   );
 }
