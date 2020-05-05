@@ -19,6 +19,7 @@ import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import UnhandledError from './components/UnhandledError';
 import Forbidden from './components/Forbidden';
+import DeleteCourse from './components/DeleteCourse';
 
 // import higher order function
 import withContext from './Context';
@@ -32,6 +33,7 @@ const UpdateCourseWithContext = withContext(UpdateCourse);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignOutWithContext = withContext(UserSignOut);
+const DeleteCourseWithContext = withContext(DeleteCourse);
 
 const App = () => {
   return (
@@ -41,10 +43,11 @@ const App = () => {
           <HeaderWithContext />
 
           <Switch>
-            <Route exact path="/" component={CoursesWithContext} />
+            <PrivateRoute exact path="/" component={CoursesWithContext} />
             <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
-            <Route exact path="/courses/:id" component={CourseDetailWithContext} />
+            <PrivateRoute exact path="/courses/:id" component={CourseDetailWithContext} />
             <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
+            <PrivateRoute exact path="/courses/:id/delete" component={DeleteCourseWithContext} />
             <Route exact path="/signin" component={UserSignInWithContext} />
             <Route exact path="/signup" component={UserSignUpWithContext} />
             <Route exact path="/signout" component={UserSignOutWithContext} />
