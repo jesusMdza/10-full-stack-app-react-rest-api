@@ -1,0 +1,25 @@
+{
+  "name": "10-full-stack-app-react-rest-api",
+  "version": "1.0.0",
+  "description": "education course application",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd api && npm start",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesusMdza/10-full-stack-app-react-rest-api.git"
+  },
+  "author": "Jesus Mendoza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jesusMdza/10-full-stack-app-react-rest-api/issues"
+  },
+  "homepage": "https://github.com/jesusMdza/10-full-stack-app-react-rest-api#readme",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
