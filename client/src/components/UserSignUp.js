@@ -23,19 +23,21 @@ class UserSignUp extends React.Component {
   }
 
   submit = async (e, body) => {
-    const { context } = this.props;
+    const { context, history } = this.props;
     const { emailAddress, password, confirmPassword } = this.state;
-    const { from } = this.props.location.state || { from: "/" };
+    const { from } = this.props.location.state || {from: { pathname: '/' }}; 
 
     e.preventDefault();
     context.actions.postUser(body, password, confirmPassword)
       .then(errors => {
         e.persist();
-        if (errors) {
+        if (errors !== null) {
           this.setState({ errors: errors });
         } else {
-          context.actions.signIn(emailAddress, password);
-          this.props.history.push(from);
+          context.actions.signIn(emailAddress, password)
+            .then(() => {
+              history.push(from);
+            })
         }
       })
       .catch(err => {
@@ -50,7 +52,7 @@ class UserSignUp extends React.Component {
     return(
       <div className="bounds">
         <div className="grid-33 centered signin">
-          <h1>Sign Up</h1>
+          <h2 className="heading--signup">Sign Up</h2>
           <div>
             <FormErrors errors={ errors } />
             <form onSubmit={ (e) => this.submit(e, body) }>
