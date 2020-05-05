@@ -23,7 +23,9 @@ const Course = (props) => {
               authUserId && ownerId === authUserId ?
               <a className="course--module course--link course--editable" href={`/courses/${ id }`}>
                 <h2 className="course--title">{ title }</h2>
-                <h4 className="course--description">{ description }</h4>
+                <div className="course--description-container">
+                  <h4 className="course--description">{ description }</h4>
+                </div>
                 <div className="course--extras">
                   <h5 className="course--author--card">{`${capitalizedFirstName} ${capitalizedLastName}`}</h5>
                   <div className="course--option course--option--editable">
