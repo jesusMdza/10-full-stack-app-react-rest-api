@@ -9,6 +9,13 @@ class UserSignIn extends React.Component {
     errors: []
   }
 
+  componentDidMount() {
+    const { context, history } = this.props;
+    if (context.authenticatedUser !== null) {
+      history.push('/');
+    }
+  }
+
   // updates specific state property with user's input value
   change = (e) => {
     const name = e.target.name;
@@ -22,7 +29,7 @@ class UserSignIn extends React.Component {
   submit = (e, username, password) => {
     e.preventDefault();
     const { context } = this.props;
-    const { from } = this.props.location.state || { from: "/" };
+    const { from } = this.props.location.state || {from: { pathname: '/' }}; 
 
     context.actions.signIn(username, password)
       .then(user => {
@@ -45,7 +52,7 @@ class UserSignIn extends React.Component {
     return(
       <div className="bounds">
         <div className="grid-33 centered signin">
-          <h1>Sign In</h1>
+          <h2 className="heading--signin">Sign In</h2>
           <div>
             <FormErrors errors={ errors } />
             <form onSubmit={ (e) => this.submit(e, emailAddress, password) }>
@@ -64,7 +71,6 @@ class UserSignIn extends React.Component {
               <div className="grid-100 pad-bottom">
                 <div className="button-container">
                   <button className="button signin-button" type="submit">Sign In</button>
-                  <button className="button cancel-button" onClick={(e) => {this.props.history.push("/")}}>Cancel</button>
                 </div>
               </div>
             </form>
