@@ -268,6 +268,10 @@ h1 {
   margin-bottom: 55px;
 }
 
+h2 {
+  font-size: 35px;
+}
+
 /* line 61, ../sass/global.sass */
 a {
   color: #18171C;
@@ -320,7 +324,6 @@ p {
 .grid-100 {
   width: 100%;
   padding: 0;
-  display: flex;
 }
 /* line 90, ../sass/global.sass */
 .grid-right {
@@ -460,6 +463,7 @@ p {
   font-weight: bold;
   font-family: "Rubik", sans-serif;
 }
+
 /* line 186, ../sass/global.sass */
 .course--description {
   color: #18171C;
@@ -472,7 +476,6 @@ h4.course--description {
   height: 113px;
   font-weight: 400;
   overflow-y: hidden;
-  text-overflow: ellipsis;
   font-family: 'Barlow', sans-serif;
 }
 
@@ -921,10 +924,18 @@ input:focus {
   align-items: center;
 }
 
-/* error styling */
-.error-container {
+.button-container.delete {
+  justify-content: center;
+}
+
+.heading--signin,
+.heading--signup {
+  margin-bottom: 25px;
+}
+
+/* error & warning message styling */
+.message--container {
   text-align: center;
-  height: 65vh;
   display: flex;
   align-items: center;
   justify-content: center;
