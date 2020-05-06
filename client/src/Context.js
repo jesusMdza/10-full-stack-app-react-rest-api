@@ -66,7 +66,7 @@ export class Provider extends Component {
 
   // GET user by credentials
   getUser = async (emailAddress, password) => {
-    const response = await this.api("http://localhost:5000/api/users", 'GET', null, true, { emailAddress, password });
+    const response = await this.api("https://course-platform-server.herokuapp.com/api/users", 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
       return response.json();
     } else if (response.status === 401) {
@@ -82,7 +82,7 @@ export class Provider extends Component {
       const customError = {error: ["Passwords do not match"]};
       return customError;
     } else {
-      const response = await this.api("http://localhost:5000/api/users", 'POST', body);
+      const response = await this.api("https://course-platform-server.herokuapp.com/api/users", 'POST', body);
       if (response.status === 201) {
         return null;
       } else if (response.status === 400) {
@@ -96,9 +96,9 @@ export class Provider extends Component {
     let response;
 
     if (id) {
-      response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'GET');
+      response = await this.api(`https://course-platform-server.herokuapp.com/api/courses/${ id }`, 'GET');
     } else {
-      response = await this.api("http://localhost:5000/api/courses", 'GET');
+      response = await this.api("https://course-platform-server.herokuapp.com/api/courses", 'GET');
     }
 
     if (response.status === 200) {
@@ -114,7 +114,7 @@ export class Provider extends Component {
     const { password } = this.state;
     const { emailAddress } = authenticatedUser;
 
-    const response = await this.api("http://localhost:5000/api/courses", 'POST', body, true, { emailAddress, password });
+    const response = await this.api("https://course-platform-server.herokuapp.com/api/courses", 'POST', body, true, { emailAddress, password });
     if (response.status === 201) {
       return response.json();
     } else if (response.status === 400) {
@@ -130,7 +130,7 @@ export class Provider extends Component {
     const { password } = this.state;
     const { emailAddress } = authenticatedUser;
 
-    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'PUT', body, true, { emailAddress, password });
+    const response = await this.api(`https://course-platform-server.herokuapp.com/api/courses/${ id }`, 'PUT', body, true, { emailAddress, password });
     if (response.status === 204) {
       return null;
     } else if (response.status === 400) {
@@ -148,7 +148,7 @@ export class Provider extends Component {
     const { password } = this.state;
     const { emailAddress } = authenticatedUser;
 
-    const response = await this.api(`http://localhost:5000/api/courses/${ id }`, 'DELETE', null, true, { emailAddress, password });
+    const response = await this.api(`https://course-platform-server.herokuapp.com/api/courses/${ id }`, 'DELETE', null, true, { emailAddress, password });
     if (response.status === 204) {
       return response.status;
     } else if (response.status === 403) {
